@@ -52,6 +52,7 @@ class Wordle:
                 m += '  :   '
                 for s in self.keys.keys():
                     m += '\033[1m'+colors[self.keys[s][self.n]]+' '+s+'\033[1m'
+                m += '\033[0m'
                 print(m)
                 if min(match) == 3:
                     print('you got it in '+str(t)+' tries :)\n')
