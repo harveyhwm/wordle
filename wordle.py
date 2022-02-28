@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
 import zipfile
-import re
-from termcolor import colored
+import re,os
 
-DICT_DIR = 'data/'
+# allows us to invoke from any directory
+DICT_DIR = os.path.dirname(os.path.realpath(__file__))+'/data/'
 DICT_MAIN_PATH = 'dict_main.zip'
 
 class Wordle:
@@ -16,6 +16,7 @@ class Wordle:
         self.word = self.data['word'][np.random.randint(len(self.data))]
         self.keys = {}
 
+    # the n+1 keys save the state of each letter in your current guess, with the final one used to store the letter state in your guess history
     def set_keys(self,save_letters=False):
         for a in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
             if save_letters is False:
@@ -25,6 +26,7 @@ class Wordle:
 
     def guess(self):
         t = 1
+        # ansi escape codes for light grey, dark grey, orange and green
         colors = ['\033[38;5;254m','\033[38;5;239m','\033[38;5;214m','\033[38;5;36m']
         match = np.zeros(self.n,dtype=int)
         self.set_keys()
