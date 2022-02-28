@@ -4,18 +4,19 @@ import zipfile
 import re
 from termcolor import colored
 
-DICT_MAIN_PATH = 'dict_main.zip'
+DICT_MAIN_PATH = 'data/dict_main.zip'
 
 class Wordle:
-    def __init__(self,data,n=5):
-        self.data = data[data['len']==n].reset_index(drop=True)
+    def __init__(self,data,n=5,first=True):
+        if first is True:
+            print('Welcome to \033[1mWORDLE!\n\033[0m')
+            self.data = data[data['len']==n].reset_index(drop=True)
         self.word = self.data['word'][np.random.randint(len(self.data))]
-        print('Welcome to \033[1mWORDLE!\n\033[0m')
 
     def guess(self):
         t = 1
         keys = {}
-        colors = ['\033[38;5;254m','\033[38;5;241m','\033[38;5;214m','\033[38;5;36m']
+        colors = ['\033[38;5;254m','\033[38;5;239m','\033[38;5;214m','\033[38;5;36m']
         for a in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
             keys[a] = 0
         match = np.zeros(len(self.word),dtype=int)
@@ -42,8 +43,13 @@ class Wordle:
                     m += colors[keys[s]]+' '+s
                 print(m)
                 if min(match) == 3:
-                    print('you got it in '+str(t)+' tries :)')
-                    break
+                    print('you got it in '+str(t)+' tries :)\n')
+                    replay = input('Do you want to play again? y/n : ')
+                    if replay == 'y':
+                        self.__init__(self.data,first=False)
+                        self.guess()
+                    else:
+                        break
 
 if __name__ == '__main__':
     dict_main = pd.read_csv(zipfile.ZipFile(DICT_MAIN_PATH).open(re.sub('zip$','csv',DICT_MAIN_PATH)))

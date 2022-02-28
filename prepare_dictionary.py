@@ -2,8 +2,8 @@ import pandas as pd
 import zipfile
 import re
 
-DICT_WIKI_PATH = 'dictionary_lowercase.zip'
-DICT_WORD_PATH = 'wikipedia_en.zip'
+DICT_WIKI_PATH = 'data/dictionary_lowercase.zip'
+DICT_WORD_PATH = 'data/wikipedia_en.zip'
 
 dict_wiki = zipfile.ZipFile(DICT_WIKI_PATH)
 dict_wiki = pd.read_csv(dict_wiki.open(re.sub('zip$','txt',DICT_WIKI_PATH)),header=None,names=['word'])
