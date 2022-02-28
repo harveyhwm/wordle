@@ -4,8 +4,8 @@ import zipfile
 import re
 from termcolor import colored
 
-DICT_MAIN_PATH = 'data/dict_main.zip'
-
+DICT_DIR = 'data/'
+DICT_MAIN_PATH = 'dict_main.zip'
 class Wordle:
     def __init__(self,data,n=5,first=True):
         if first is True:
@@ -37,8 +37,8 @@ class Wordle:
                 if min(match) != 3:
                     t += 1
                 for s in myguess:
-                    m += '\033[1m'+colors[keys[s]]+' '+s
-                m += '   :   '
+                    m += '\033[1m'+colors[keys[s]]+s+' '
+                m += '  :   '
                 for s in keys.keys():
                     m += colors[keys[s]]+' '+s
                 print(m)
@@ -52,7 +52,7 @@ class Wordle:
                         break
 
 if __name__ == '__main__':
-    dict_main = pd.read_csv(zipfile.ZipFile(DICT_MAIN_PATH).open(re.sub('zip$','csv',DICT_MAIN_PATH)))
+    dict_main = pd.read_csv(zipfile.ZipFile(DICT_DIR+DICT_MAIN_PATH).open(re.sub('zip$','csv',DICT_MAIN_PATH)))
     word = Wordle(dict_main)
     word.guess()
 
