@@ -6,6 +6,7 @@ from termcolor import colored
 
 DICT_DIR = 'data/'
 DICT_MAIN_PATH = 'dict_main.zip'
+
 class Wordle:
     def __init__(self,data,n=5,first=True):
         if first is True:
