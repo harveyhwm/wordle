@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import zipfile
-import re,os
+import os,re
 
 # allows us to invoke from any directory
 DICT_DIR = os.path.dirname(os.path.realpath(__file__))+'/data/'
@@ -32,9 +32,12 @@ class Wordle:
         self.set_keys()
         while min(match) < 3:
             m = ''
-            myguess = input('Guess '+str(t)+' : ')
+            myguess = input('Guess '+str(t)+' : ').upper()
             if len(myguess) != self.n:
                 print('Please choose a '+str(self.n)+'-letter word!')
+                continue
+            elif re.match('^[A-Za-z]{'+str(self.n)+'}$',myguess) is None:
+                print('Please use alphabetic characters only!')
                 continue
             else:
                 guessmap = []
@@ -51,7 +54,7 @@ class Wordle:
                         match[i] = self.keys[c][guessmap[i]-1] = 1
                     self.keys[c][self.n] = max(self.keys[c][self.n],match[i])
                     m += '\033[1m'+colors[match[i]]+c+' '+'\033[1m'
-                m += '  :   '
+                m += '\033[0m  :   '
                 for s in self.keys.keys():
                     m += '\033[1m'+colors[self.keys[s][self.n]]+' '+s+'\033[1m'
                 m += '\033[0m'
